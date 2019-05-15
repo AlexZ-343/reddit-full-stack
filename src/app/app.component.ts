@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {LoginService} from './login/login.service';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {LoginModalComponent} from './login-modal/login-modal.component';
+import {SignUpModalComponent} from './sign-up-modal/sign-up-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -8,31 +8,26 @@ import {LoginService} from './login/login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild(LoginModalComponent) loginModalComponent;
+  @ViewChild(SignUpModalComponent) signUpComponent;
   title = 'reddit-full-stack';
-  signingUp = false;
-  loggingIn = false;
 
-  loginService: LoginService;
-  private subscriptions: Subscription[] = [];
+  constructor() {}
+
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.loginService.loggingIn$.subscribe((loggingIn: boolean) => {
-        this.loggingIn = loggingIn;
-      }),
-      this.loginService.signingUp$.subscribe((signingUp: boolean) => {
-        this.signingUp = signingUp;
-      })
-    );
+
+
+
 
     }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub: Subscription) => {
-      if (sub && !sub.closed) {
-        sub.unsubscribe();
-      }
-    });
+    // this.subscriptions.forEach((sub: Subscription) => {
+    //   if (sub && !sub.closed) {
+    //     sub.unsubscribe();
+    //   }
+    // });
   }
 }
 

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LoginService} from './login.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -8,19 +7,22 @@ import {LoginService} from './login.service';
 })
 export class LoginComponent implements OnInit {
 
-  loginService: LoginService;
 
-  constructor() { }
+  constructor(
+    private loginService: LoginService
+  ) {}
 
   ngOnInit() {
   }
 
   registering(): void {
-    this.loginService.showSignUpModal();
+    this.loginService.showSignUpModal(true);
+    this.loginService.showLoginModal(false);
   }
 
   loggingIn(): void {
-    this.loginService.showLoginModal();
+    this.loginService.showLoginModal(true);
+    this.loginService.showSignUpModal(false);
   }
 
 }

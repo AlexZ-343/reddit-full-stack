@@ -1,3 +1,33 @@
-<p>
-  login-modal works!
-</p>
+<p-dialog
+  [(visible)]="this.showLoginModal"
+  modal="modal"
+  [showHeader]="true"
+  [responsive]="true"
+  [closeOnEscape]="false"
+  [closable]="true"
+  [resizable]="false"
+  [draggable]="true"
+  (onHide)="closeModal()"
+>
+
+  <h3>Welcome! Log in to your account.</h3>
+
+  <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" size="30" pInputText>
+      <label for="float-input">Username</label>
+    </span>
+  </div>
+
+  <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" size="30" pInputText>
+      <label for="float-input">Password</label>
+    </span>
+  </div>
+
+<!--  logIn onClick logic -->
+  <p-button label="Log In"></p-button>
+  <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
+
+</p-dialog>

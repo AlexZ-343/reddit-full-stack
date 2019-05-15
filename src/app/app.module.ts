@@ -10,11 +10,12 @@ import { ButtonModule } from 'primeng/components/button/button';
 import { RadioButtonModule } from 'primeng/components/radioButton/radioButton';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { TabMenuModule } from 'primeng/primeng';
+import {DialogModule, InputTextModule, TabMenuModule} from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
 import { RouterModule } from '@angular/router';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
+import {LoginService} from './login/login.service';
 
 @NgModule({
   declarations: [
@@ -34,9 +35,13 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
     RadioButtonModule,
     TabMenuModule,
     TableModule,
-    RouterModule.forRoot([{ path: '', component: HeaderComponent}])
+    RouterModule.forRoot([{path: '', component: HeaderComponent}]),
+    DialogModule,
+    InputTextModule
   ],
-  providers: [],
+  providers: [
+    LoginService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

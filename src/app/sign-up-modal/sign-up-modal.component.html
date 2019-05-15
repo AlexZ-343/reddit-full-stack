@@ -1,3 +1,44 @@
-<p>
-  sign-up-modal works!
-</p>
+<p-dialog
+  [(visible)]="this.showSignUpModal"
+  modal="modal"
+  [showHeader]="true"
+  [responsive]="true"
+  [closeOnEscape]="false"
+  [closable]="true"
+  [resizable]="false"
+  [draggable]="true"
+  (onHide)="closeModal()"
+>
+
+  <h3>Create a user account! It's easy.</h3>
+
+<!--  <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>-->
+<!--  <input type="text" pInputText placeholder="Username">-->
+
+  <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" size="30" pInputText>
+      <label for="float-input">Email Address</label>
+    </span>
+  </div>
+
+  <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" size="30" pInputText>
+      <label for="float-input">Username</label>
+    </span>
+  </div>
+
+  <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="text" size="30" pInputText>
+      <label for="float-input">Password</label>
+    </span>
+  </div>
+
+<!--  Register onClick logic  -->
+  <p-button label="Register"></p-button>
+  <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
+
+
+</p-dialog>

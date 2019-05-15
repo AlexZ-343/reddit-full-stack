@@ -10,12 +10,12 @@ export class LoginService {
   signingUp$ = this.signingUpSource.asObservable();
   loggingIn$ = this.loggingInSource.asObservable();
 
-  showSignUpModal(): void {
-    this.signingUpSource.next(true);
+  showSignUpModal(isOpen: boolean): void {
+    this.signingUpSource.next(isOpen);
   }
 
-  showLoginModal(): void {
-    this.loggingInSource.next(true);
+  showLoginModal(isOpen: boolean): void {
+    this.loggingInSource.next(isOpen);
   }
 
 
