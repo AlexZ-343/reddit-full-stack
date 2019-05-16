@@ -10,12 +10,15 @@ import { ButtonModule } from 'primeng/components/button/button';
 import { RadioButtonModule } from 'primeng/components/radioButton/radioButton';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import {DialogModule, InputTextModule, TabMenuModule} from 'primeng/primeng';
+import {CardModule, DialogModule, InputTextModule, TabMenuModule} from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
 import { RouterModule } from '@angular/router';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import {LoginService} from './login/login.service';
+import { PostsComponent } from './posts/posts.component';
+import { MastermockInterceptor } from 'ngx-mastermock';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import {LoginService} from './login/login.service';
     HeaderComponent,
     LoginComponent,
     SignUpModalComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,10 +41,16 @@ import {LoginService} from './login/login.service';
     TableModule,
     RouterModule.forRoot([{path: '', component: HeaderComponent}]),
     DialogModule,
-    InputTextModule
+    InputTextModule,
+    CardModule
   ],
   providers: [
-    LoginService
+    LoginService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MastermockInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
