@@ -55,6 +55,9 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "mastermock": {
+              "main": "src/main-mock.ts"
             }
           }
         },
@@ -66,6 +69,9 @@
           "configurations": {
             "production": {
               "browserTarget": "reddit-full-stack:build:production"
+            },
+            "mastermock": {
+              "browserTarget": "ngx-mastermock-app:build:mastermock"
             }
           }
         },

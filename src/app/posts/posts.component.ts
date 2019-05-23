@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MastermockResponse} from 'ngx-mastermock';
-import {delay} from 'rxjs/operators';
-import {HttpResponse} from '@angular/common/http';
+import {Posts} from './posts.interface';
+import {Subscription} from 'rxjs';
+import {PostService} from './posts.service';
 
 @Component({
   selector: 'app-posts',
@@ -10,23 +10,20 @@ import {HttpResponse} from '@angular/common/http';
 })
 export class PostsComponent implements OnInit {
 
-  posts: MastermockResponse;
+  posts: Posts;
+  private subscriptions: Subscription[] = [];
 
-  constructor() {
-  }
+  constructor(
+    private postService: PostService
+  ) {}
 
   ngOnInit() {
-    // this.posts = {
-    //   delay: 1000,
-    //   serverPassthrough: false,
-    //   response: new HttpResponse({
-    //     status: 200,
-    //     body: getPostsSummary()
-    //     }
-    //   })
-    // };
+    this.subscriptions.push(
+      this.postService.postsList$.subscribe((postsList: Posts) => {
+        this.posts = postsList;
+      })
+    );
   }
-
 
 }
 

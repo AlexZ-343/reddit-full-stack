@@ -18,7 +18,8 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
 import {LoginService} from './login/login.service';
 import { PostsComponent } from './posts/posts.component';
 import { MastermockInterceptor } from 'ngx-mastermock';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
+import {PostService} from './posts/posts.service';
 
 @NgModule({
   declarations: [
@@ -42,15 +43,18 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
     RouterModule.forRoot([{path: '', component: HeaderComponent}]),
     DialogModule,
     InputTextModule,
-    CardModule
+    CardModule,
+    HttpClientModule
   ],
   providers: [
     LoginService,
+    PostService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MastermockInterceptor,
       multi: true
-    }
+    },
+    HttpClient,
   ],
   bootstrap: [AppComponent]
 })
