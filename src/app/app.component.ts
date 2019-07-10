@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {LoginModalComponent} from './login-modal/login-modal.component';
 import {SignUpModalComponent} from './sign-up-modal/sign-up-modal.component';
-import { authConfig } from './auth.config.ts';
+import { authConfig } from './auth.config';
 import {JwksValidationHandler, OAuthService} from 'angular-oauth2-oidc';
 
 @Component({

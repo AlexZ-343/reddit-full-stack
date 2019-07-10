@@ -60,6 +60,9 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     //
     // showError();
   }
+  isInvalid(): boolean {
+    return false;
+  }
 
   closeModal(): void {
     this.loginService.showLoginModal(false);
