@@ -7,12 +7,12 @@ import { LoginComponent } from './login/login.component';
 import { AccordionModule } from 'primeng/components/accordion/accordion';
 import { PanelModule } from 'primeng/components/panel/panel';
 import { ButtonModule } from 'primeng/components/button/button';
-import { RadioButtonModule } from 'primeng/components/radioButton/radioButton';
+import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CardModule, DialogModule, InputTextModule, TabMenuModule} from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
-import { RouterModule } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import {LoginService} from './login/login.service';
@@ -20,6 +20,14 @@ import { PostsComponent } from './posts/posts.component';
 import { MastermockInterceptor } from 'ngx-mastermock';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
 import {PostService} from './posts/posts.service';
+import {OAuthModule, OAuthService} from 'angular-oauth2-oidc';
+import {AuthGuard} from './shared/auth/auth.guard.service';
+
+const appRoutes: Routes = [
+  {path: 'login-modal', component: LoginModalComponent, canActivate: [AuthGuard]},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '**', redirectTo: 'home'}
+];
 
 @NgModule({
   declarations: [
@@ -34,6 +42,7 @@ import {PostService} from './posts/posts.service';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     AccordionModule,
     PanelModule,
     ButtonModule,
@@ -44,7 +53,9 @@ import {PostService} from './posts/posts.service';
     DialogModule,
     InputTextModule,
     CardModule,
-    HttpClientModule
+    HttpClientModule,
+    OAuthModule,
+    OAuthModule.forRoot()
   ],
   providers: [
     LoginService,
@@ -55,6 +66,8 @@ import {PostService} from './posts/posts.service';
       multi: true
     },
     HttpClient,
+    OAuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

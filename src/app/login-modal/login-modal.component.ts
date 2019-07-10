@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {LoginService} from '../login/login.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoginModalValidator} from './login-modal.validator';
+import {OAuthService} from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-login-modal',
@@ -11,9 +14,12 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   showLoginModal = false;
   private subscriptions: Subscription[] = [];
+  loginForm: FormGroup;
 
   constructor(
-    private loginService: LoginService
+    private loginService: LoginService,
+    private oauthService: OAuthService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -22,6 +28,37 @@ export class LoginModalComponent implements OnInit, OnDestroy {
         this.showLoginModal = showLogin;
       })
     );
+    this.setLoginFormControl();
+  }
+
+  public login() {
+    this.oauthService.initImplicitFlow();
+  }
+
+  public logout() {
+    this.oauthService.logOut();
+  }
+
+  public get givenName() {
+    const claims = this.oauthService.getIdentityClaims();
+    if (!claims) {
+      return null;
+    }
+    return claims['name'];
+  }
+
+  setLoginFormControl(): void {
+    // this.loginForm = this.formBuilder.group({
+    //   username: new FormControl('', [Validators.required, LoginModalValidator.validateUsername()]),
+    //   password: new FormControl('', [Validators.required, LoginModalValidator.validatePassword()])
+    // });
+  }
+
+  validateLogin(): void {
+
+    // if (userName = something)
+    //
+    // showError();
   }
 
   closeModal(): void {
