@@ -4,6 +4,7 @@ import {LoginService} from '../login/login.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginModalValidator} from './login-modal.validator';
 import {OAuthService} from 'angular-oauth2-oidc';
+declare var facebook: any;
 
 @Component({
   selector: 'app-login-modal',
@@ -29,6 +30,15 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       })
     );
     this.setLoginFormControl();
+    (window as any).fbAsyncInit = function() {
+      facebook.init({
+        appId      : '394951114363257',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v3.1'
+      });
+      facebook.AppEvents.logPageView();
+    };
   }
 
   public login() {

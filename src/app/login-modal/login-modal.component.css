@@ -1,3 +1,7 @@
+.header-margin {
+  margin: 10px 0;
+}
+
 .register-margin {
   margin-left: 10px;
 }
@@ -6,10 +10,10 @@
   margin: 0;
 }
 
-.facebook-icon {
-  width: 60px;
-  height: 60px
-}
+/*.facebook-icon {*/
+/*  width: 60px;*/
+/*  height: 60px*/
+/*}*/
 
 .login-align {
   text-align: center

@@ -1,8 +1,8 @@
 <p-dialog
   [(visible)]="this.showLoginModal"
   modal="modal"
-  width="500"
-  height="300"
+  width="600"
+  height="250"
   [showHeader]="true"
   [responsive]="true"
   [closeOnEscape]="false"
@@ -12,23 +12,19 @@
   (onHide)="closeModal()"
 >
 
-  <h3>Welcome! Log in to your account.</h3>
+  <h3 class="header-margin">Welcome! Log in to your account.</h3>
 
-  <div class="ui-g-4">
-<!--    <div *ngIf="givenName">-->
-<!--      <h2>Welcome, {{givenName}}!</h2>-->
-<!--      <p-button label="Log out" (onClick)="logout()"></p-button>-->
-<!--      <p><a routerLink="/search" routerLinkActive="active">Search</a></p>-->
-<!--    </div>-->
-    <p class="text-margin">Login via Facebook</p>
+  <div class="ui-g-6">
+<!--    <p class="text-margin login-align">Login via Facebook</p>-->
     <div *ngIf="!givenName" class="login-align">
-      <img class="facebook-icon" src="../../assets/facebook.png" alt="Facebook">
-<!--      <p-button label="Log In" (onClick)="login()"></p-button>-->
+      <a (click)="login()">
+        <img class="facebook-icon" src="../../assets/LoginWithFacebook.png" alt="Facebook">
+      </a>
     </div>
   </div>
 
 <!--  logIn onClick logic -->
-  <div class="ui-g-8 login-align">
+  <div class="ui-g-6">
     <div class="ui-g-12">
       <span class="ui-float-label">
         <input id="float-input" type="text" size="30" pInputText>
@@ -43,10 +39,12 @@
       </span>
     </div>
 
-    <p-button label="Log In" (onClick)="validateLogin()"></p-button>
-    <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
-    <div *ngIf="isInvalid()">
-      <p>Incorrect username or password.</p>
+    <div class="ui-g-12">
+      <p-button label="Log In" (onClick)="validateLogin()"></p-button>
+      <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
+      <div *ngIf="isInvalid()">
+        <p>Incorrect username or password.</p>
+      </div>
     </div>
   </div>
 
