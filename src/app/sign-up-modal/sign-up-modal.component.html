@@ -2,7 +2,7 @@
   [(visible)]="this.showSignUpModal"
   modal="modal"
   width="600"
-  height="250"
+  height="350"
   [showHeader]="true"
   [responsive]="true"
   [closeOnEscape]="false"
@@ -17,30 +17,71 @@
 <!--  <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>-->
 <!--  <input type="text" pInputText placeholder="Username">-->
 
-  <div class="ui-g-12">
-    <span class="ui-float-label">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">Email Address</label>
-    </span>
-  </div>
+  <div class="button-margin">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
 
-  <div class="ui-g-12">
-    <span class="ui-float-label">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">Username</label>
-    </span>
-  </div>
+    <div class="ui-g-12">
+      <span class="ui-float-label">
+        <input id="float-input" type="email" size="30" pInputText formControlName="email">
+        <label for="float-input">Email Address</label>
+      </span>
+      <div *ngIf="signupForm.controls['email'].errors?.required && (signupForm.controls['email'].dirty
+      || signupForm.controls['email'].touched)">
+        <label for="float-input">Email Address is required.</label>
+      </div>
+      <div *ngIf="signupForm.controls['email'].errors?.maxlength && (signupForm.controls['email'].dirty
+      || signupForm.controls['email'].touched)">
+        <label for="float-input">Email Address should be no more than 40 characters long.</label>
+      </div>
+      <div *ngIf="signupForm.controls['email'].errors?.email && (signupForm.controls['email'].dirty
+      || signupForm.controls['email'].touched)">
+        <label for="float-input">Email Address is invalid.</label>
+      </div>
+    </div>
 
-  <div class="ui-g-12">
-    <span class="ui-float-label">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">Password</label>
-    </span>
+    <div class="ui-g-12">
+      <span class="ui-float-label">
+        <input id="float-input" type="text" size="30" pInputText formControlName="username">
+        <label for="float-input">Username</label>
+      </span>
+      <div *ngIf="signupForm.controls['username'].errors?.required && (signupForm.controls['username'].dirty
+      || signupForm.controls['username'].touched)">
+        <label for="float-input">Username is required.</label>
+      </div>
+      <div *ngIf="signupForm.controls['username'].errors?.minlength && (signupForm.controls['username'].dirty
+      || signupForm.controls['username'].touched)">
+        <label for="float-input">Username should be at least 4 characters long.</label>
+      </div>
+      <div *ngIf="signupForm.controls['username'].errors?.maxlength && (signupForm.controls['username'].dirty
+      || signupForm.controls['username'].touched)">
+        <label for="float-input">Username should be no more than 40 characters long.</label>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <span class="ui-float-label">
+        <input id="float-input" type="password" size="30" pInputText formControlName="password">
+        <label for="float-input">Password</label>
+      </span>
+      <div *ngIf="signupForm.controls['password'].errors?.required && (signupForm.controls['password'].dirty
+      || signupForm.controls['password'].touched)">
+        <label for="float-input">Password is required.</label>
+      </div>
+      <div *ngIf="signupForm.controls['password'].errors?.minlength && (signupForm.controls['password'].dirty
+      || signupForm.controls['password'].touched)">
+        <label for="float-input">Password should be at least 15 characters long.</label>
+      </div>
+      <div *ngIf="signupForm.controls['password'].errors?.maxlength && (signupForm.controls['password'].dirty
+      || signupForm.controls['password'].touched)">
+        <label for="float-input">Password should be no more than 100 characters long.</label>
+      </div>
+    </div>
+
+  </form>
   </div>
 
 <!--  Register onClick logic  -->
-  <p-button label="Register"></p-button>
-  <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
-
+    <p-button label="Register" (onClick)="validateRegister()"></p-button>
+    <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
 
 </p-dialog>

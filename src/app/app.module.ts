@@ -21,7 +21,9 @@ import { MastermockInterceptor } from 'ngx-mastermock';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
 import {PostService} from './posts/posts.service';
 import {OAuthModule, OAuthService} from 'angular-oauth2-oidc';
-import {AuthGuard} from './shared/auth/auth.guard.service';
+import {AuthGuard} from '../providers/auth/auth.guard.service';
+import {ReactiveFormsService} from './shared/reactive-forms.service';
+import {SignupService} from './sign-up-modal/sign-up-modal.service';
 
 const appRoutes: Routes = [
   {path: 'login-modal', component: LoginModalComponent, canActivate: [AuthGuard]},
@@ -60,6 +62,7 @@ const appRoutes: Routes = [
   providers: [
     LoginService,
     PostService,
+    SignupService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MastermockInterceptor,
@@ -67,6 +70,7 @@ const appRoutes: Routes = [
     },
     HttpClient,
     OAuthService,
+    ReactiveFormsService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

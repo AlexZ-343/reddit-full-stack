@@ -4,7 +4,8 @@ import {LoginService} from '../login/login.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginModalValidator} from './login-modal.validator';
 import {OAuthService} from 'angular-oauth2-oidc';
-declare var facebook: any;
+import {ReactiveFormsService} from '../shared/reactive-forms.service';
+declare var FB: any;
 
 @Component({
   selector: 'app-login-modal',
@@ -20,6 +21,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
     private oauthService: OAuthService,
+    private reactiveForms: ReactiveFormsService,
     private formBuilder: FormBuilder
   ) { }
 
@@ -31,14 +33,31 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     );
     this.setLoginFormControl();
     (window as any).fbAsyncInit = function() {
-      facebook.init({
-        appId      : '394951114363257',
+      FB.init({
+        appId      : '895158960848131',
         cookie     : true,
         xfbml      : true,
         version    : 'v3.1'
       });
-      facebook.AppEvents.logPageView();
+      FB.AppEvents.logPageView();
     };
+
+    (function(d, s, id) {
+      let js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return; }
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
+  submitLogin() {
+    FB.login((response) => {
+      if (response.authResponse) {
+
+      } else {
+      }
+    });
   }
 
   public login() {
@@ -54,22 +73,32 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     if (!claims) {
       return null;
     }
-    return claims['name'];
+    return null;
+    // return claims.name;
   }
 
   setLoginFormControl(): void {
-    // this.loginForm = this.formBuilder.group({
-    //   username: new FormControl('', [Validators.required, LoginModalValidator.validateUsername()]),
-    //   password: new FormControl('', [Validators.required, LoginModalValidator.validatePassword()])
-    // });
+    this.loginForm = this.formBuilder.group({
+      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(40),
+        LoginModalValidator.checkUsername]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(40),
+        LoginModalValidator.checkPassword])
+    });
+  }
+
+  formIsValid(target: string): boolean {
+    return this[target].valid;
   }
 
   validateLogin(): void {
+   if (this.formIsValid('loginForm')) {
+     this.submitLogin();
+   } else {
+     this.reactiveForms.validateAllFormFields(this.loginForm);
+   }
 
-    // if (userName = something)
-    //
-    // showError();
   }
+
   isInvalid(): boolean {
     return false;
   }
