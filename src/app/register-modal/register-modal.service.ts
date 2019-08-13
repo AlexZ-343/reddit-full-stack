@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {RegistrationStatus} from './sign-up-modal.interface';
+import {RegistrationStatus} from './register-modal.interface';
 import {Subject} from 'rxjs';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class SignupService {
   //
   // postsList$ = this.PostsListSource.asObservable();
 
-  public RegisterStatusSource = new Subject<boolean>();
+  private RegisterStatusSource = new Subject<boolean>();
   public registerStatus$ = this.RegisterStatusSource.asObservable();
 
   constructor(

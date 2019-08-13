@@ -24,28 +24,41 @@
   </div>
 
 <!--  logIn onClick logic -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="ui-g-6">
     <div class="ui-g-12">
       <span class="ui-float-label">
-        <input id="float-input" type="text" size="30" pInputText>
+        <input id="float-input" type="text" size="30" pInputText formControlName="username">
         <label for="float-input">Username</label>
       </span>
-    </div>
-
-    <div class="ui-g-12">
-      <span class="ui-float-label">
-        <input id="float-input" type="text" size="30" pInputText>
-        <label for="float-input">Password</label>
-      </span>
-    </div>
-
-    <div class="ui-g-12">
-      <p-button label="Log In" (onClick)="validateLogin()"></p-button>
-      <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
-      <div *ngIf="isInvalid()">
-        <p>Incorrect username or password.</p>
+      <div *ngIf="loginForm.controls['username'].errors?.required && (loginForm.controls['username'].dirty
+      || loginForm.controls['username'].touched)">
+        <label for="float-input">Username is required.</label>
       </div>
     </div>
+    
+    <div class="ui-g-12">
+    <span class="ui-float-label">
+      <input id="float-input" type="password" size="30" pInputText formControlName="password">
+      <label for="float-input">Password</label>
+    </span>
+      <div *ngIf="loginForm.controls['password'].errors?.required && (loginForm.controls['password'].dirty
+    || loginForm.controls['password'].touched)">
+        <label for="float-input">Password is required.</label>
+      </div>
+
+    <div class="ui-g-12">
+      <p-button label="Log In" (onClick)="validateLogin()" [disabled]="loginDisabled"></p-button>
+      <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
+      <div *ngIf="this.loginSuccess === false && !this.loginDisabled">
+        <p>Incorrect username or password.</p>
+      </div>
+      <div *ngIf="this.loginDisabled">
+        <p>You entered incorrect credentials too many times. You will now be unable to login.</p>
+      </div>
+    </div>
+   </div>
   </div>
+  </form>
 
 </p-dialog>

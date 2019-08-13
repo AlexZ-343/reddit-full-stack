@@ -1,7 +1,7 @@
 import {AbstractControl, FormControl, ValidatorFn} from '@angular/forms';
-import {SignupService} from './sign-up-modal.service';
+import {SignupService} from './register-modal.service';
 
-export class SignUpModalValidator {
+export class RegisterModalValidator {
 
   // constructor(
   //   private signupService: SignupService

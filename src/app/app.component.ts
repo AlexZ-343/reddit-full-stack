@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {LoginModalComponent} from './login-modal/login-modal.component';
-import {SignUpModalComponent} from './sign-up-modal/sign-up-modal.component';
+import {RegisterModalComponent} from './register-modal/register-modal.component';
 import { authConfig } from './auth.config';
 import {JwksValidationHandler, OAuthService} from 'angular-oauth2-oidc';
 
@@ -11,7 +11,7 @@ import {JwksValidationHandler, OAuthService} from 'angular-oauth2-oidc';
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(LoginModalComponent) loginModalComponent;
-  @ViewChild(SignUpModalComponent) signUpComponent;
+  @ViewChild(RegisterModalComponent) signUpComponent;
   title = 'reddit-full-stack';
 
   constructor(private oauthService: OAuthService) {

@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {LoginService} from '../login/login.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginModalValidator} from './login-modal.validator';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {ReactiveFormsService} from '../shared/reactive-forms.service';
+import {LoginModalService} from './login-modal.service';
+import {HttpParams} from '@angular/common/http';
+import {AuthService} from '../auth/auth.service';
+import {LoginService} from '../login/login.service';
 declare var FB: any;
 
 @Component({
@@ -17,18 +19,30 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   showLoginModal = false;
   private subscriptions: Subscription[] = [];
   loginForm: FormGroup;
+  loginSuccess: boolean;
+  loginAttempts: number;
+  loginDisabled = false;
 
   constructor(
     private loginService: LoginService,
+    private loginModalService: LoginModalService,
     private oauthService: OAuthService,
+    private authService: AuthService,
     private reactiveForms: ReactiveFormsService,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.loginModalService.resetLoginAttempts();
     this.subscriptions.push(
       this.loginService.loggingIn$.subscribe((showLogin: boolean) => {
         this.showLoginModal = showLogin;
+      }),
+      this.loginModalService.loginSuccess$.subscribe((loginStatus: boolean) => {
+        this.loginSuccess = loginStatus;
+      }),
+      this.loginModalService.loginAttempt$.subscribe((loginAttempts: number) => {
+        this.loginAttempts = loginAttempts;
       })
     );
     this.setLoginFormControl();
@@ -49,6 +63,13 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+  }
+
+  setLoginFormControl(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+    });
   }
 
   submitLogin() {
@@ -77,30 +98,29 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     // return claims.name;
   }
 
-  setLoginFormControl(): void {
-    this.loginForm = this.formBuilder.group({
-      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(40),
-        LoginModalValidator.checkUsername]),
-      password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(40),
-        LoginModalValidator.checkPassword])
-    });
-  }
-
   formIsValid(target: string): boolean {
     return this[target].valid;
   }
 
   validateLogin(): void {
-   if (this.formIsValid('loginForm')) {
-     this.submitLogin();
-   } else {
-     this.reactiveForms.validateAllFormFields(this.loginForm);
-   }
+    if (this.formIsValid('loginForm')) {
+      let params = new HttpParams();
 
-  }
-
-  isInvalid(): boolean {
-    return false;
+      for (const key of Object.keys(this.loginForm.controls)) {
+        params = params.append(key, this.loginForm.get(key).value);
+      }
+      this.loginModalService.submitLogin(params);
+      if (this.loginSuccess) {
+        // this.authService.login()
+      } else {
+      this.loginModalService.increaseLoginCounter();
+        if (this.loginAttempts > 3) {
+          this.loginDisabled = true;
+        }
+      }
+    } else {
+      this.reactiveForms.validateAllFormFields(this.loginForm);
+    }
   }
 
   closeModal(): void {

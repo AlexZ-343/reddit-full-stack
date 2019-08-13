@@ -1,18 +1,17 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {LoginService} from '../login/login.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginModalValidator} from '../login-modal/login-modal.validator';
-import {SignupService} from './sign-up-modal.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {SignupService} from './register-modal.service';
 import {ReactiveFormsService} from '../shared/reactive-forms.service';
-import {SignUpModalValidator} from './sign-up-modal.validator';
+import {RegisterModalValidator} from './register-modal.validator';
+import {LoginService} from '../login/login.service';
 
 @Component({
   selector: 'app-sign-up-modal',
-  templateUrl: './sign-up-modal.component.html',
-  styleUrls: ['./sign-up-modal.component.css']
+  templateUrl: './register-modal.component.html',
+  styleUrls: ['./register-modal.component.css']
 })
-export class SignUpModalComponent implements OnInit, OnDestroy {
+export class RegisterModalComponent implements OnInit, OnDestroy {
 
   showSignUpModal = false;
   signupForm: FormGroup;
@@ -23,7 +22,6 @@ export class SignUpModalComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private signupService: SignupService,
     private reactiveForms: ReactiveFormsService,
-    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -42,7 +40,7 @@ export class SignUpModalComponent implements OnInit, OnDestroy {
     this.signupForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.maxLength(40), Validators.email]),
       username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(40),
-        SignUpModalValidator.checkUsername]),
+        RegisterModalValidator.checkUsername]),
       password: new FormControl('', [Validators.required, Validators.minLength(15), Validators.maxLength(100)])
     });
   }
