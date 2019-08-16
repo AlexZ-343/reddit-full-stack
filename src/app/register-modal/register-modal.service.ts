@@ -22,11 +22,11 @@ export class SignupService {
     // find the right endpoint name for this
     const endpoint = 'http://localhost:8080/usernames/getUsername?userName=' + username;
 
-    const requestParams = {
+    const headerParams = {
       userName: username
     };
 
-    this.http.get(endpoint, {params: requestParams as any}).subscribe(response => {
+    this.http.get(endpoint, {params: headerParams as any}).subscribe(response => {
       if (response) {
         // this.PostsListSource.next(response['body']['postList']);
         return true;
@@ -49,11 +49,11 @@ export class SignupService {
       // 'Access-Control-Allow-Origin' : '*'
     };
 
-    const requestOptions = {
+    const headerParams = {
       headers: new HttpHeaders(headerDict),
     };
 
-    this.http.post(endpoint, signupFormData, requestOptions)
+    this.http.post(endpoint, signupFormData, headerParams)
       .subscribe((response: RegistrationStatus) => {
       this.RegisterStatusSource.next(response.status);
     }

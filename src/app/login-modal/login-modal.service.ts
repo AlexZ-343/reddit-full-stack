@@ -1,11 +1,11 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Subject, Subscription} from 'rxjs';
 import {LoginStatus} from './login-modal.interface';
 
 
 @Injectable()
-export class LoginModalService implements OnInit {
+export class LoginModalService implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   private LoginSuccessSource = new Subject<boolean>();
@@ -42,6 +42,14 @@ export class LoginModalService implements OnInit {
 
   increaseLoginCounter(): void {
     this.LoginAttemptSource.next(this.loginAttempts += 1);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub: Subscription) => {
+      if (sub && !sub.closed) {
+        sub.unsubscribe();
+      }
+    });
   }
 
   //

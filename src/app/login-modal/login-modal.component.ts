@@ -114,7 +114,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
         // this.authService.login()
       } else {
       this.loginModalService.increaseLoginCounter();
-        if (this.loginAttempts > 3) {
+      if (this.loginAttempts > 3) {
           this.loginDisabled = true;
         }
       }
