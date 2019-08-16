@@ -28,6 +28,8 @@ import { AuthService} from './auth/auth.service';
 import { JWT_OPTIONS, JwtHelperService, JwtModule} from '@auth0/angular-jwt';
 import {LoginComponent} from './login/login.component';
 import {LoginService} from './login/login.service';
+import { CreatePostComponent } from './create-post/create-post.component';
+import {CreatePostService} from './create-post/create-post.service';
 
 const routes: Routes = [
   { path: 'login-modal', component: LoginModalComponent, canActivate: [AuthGuardService]},
@@ -35,6 +37,7 @@ const routes: Routes = [
   { path: 'login', component: LoginModalComponent},
   { path: 'register', component: RegisterModalComponent},
   { path: 'post-comments', component: PostCommentsComponent},
+  { path: 'create-post', component: CreatePostComponent},
   // { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: '**', redirectTo: 'home'}
 ];
@@ -47,7 +50,8 @@ const routes: Routes = [
     RegisterModalComponent,
     LoginModalComponent,
     PostsComponent,
-    PostCommentsComponent
+    PostCommentsComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,7 @@ const routes: Routes = [
     LoginModalService,
     PostService,
     SignupService,
+    CreatePostService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MastermockInterceptor,

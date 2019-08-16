@@ -1,11 +1,42 @@
 export interface Posts {
-  title: string;
-  comments: number;
-  upvotes: number;
-  timeSinceSubmission: number;
-  submittedBy: string;
-  subreddit: Subreddit;
-
+  postID: number;
+  username: string;
+  subReddit: Subreddit;
+  postTitle: string;
+  datePosted: number;
+  postType: PostType;
+  postBody: string;
 }
 
-export type Subreddit = 'r/pics' | 'r/AskReddit' | 'r/funny';
+export interface Comments {
+  username: string;
+  datePosted: number;
+  commentText: string;
+  lft: number;
+  rgt: number;
+}
+
+export interface PostStatus {
+  postId: number;
+  success: boolean;
+}
+
+export enum Subreddit {
+  aww,
+  askReddit,
+  books,
+  dataIsBeautiful,
+  funny,
+  gaming,
+  history,
+  jokes,
+  lifeProTips,
+  movies,
+  music,
+  personalFinance,
+  science,
+  showerThoughts,
+  todayILearned
+}
+
+export type PostType = 'LINK' | 'TEXT';

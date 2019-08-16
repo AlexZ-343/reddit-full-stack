@@ -4,7 +4,8 @@
 <!--  <p-footer>-->
   <div class="ui-g-12">
     <div class="ui-g-2">
-      300 comments
+      <!--(click)="this.router.navigate(['/post-comments']);"-->
+      <a routerLink="/post-comments">300 comments</a>
     </div>
     <div class="ui-g-2">
       share
@@ -25,11 +26,11 @@
 <!--  </p-footer>-->
 </p-card>
 
-<div *ngFor="let post of posts">
-  <p-card header="{{post.title}}" subheader="Subheader" [style]="{width: '90vw', height: '10vw'}" styleClass="ui-card-shadow">
-    <p-footer>
+<div *ngFor="let post of postList" class="post-spacing">
+  <p-card header="{{post.postTitle}}" [style]="{width: '90vw', height: '6vw'}" styleClass="ui-card-shadow">
+    <!--<p-footer>-->
       <div class="ui-g-2">
-        {{post.comments}} comments
+        300 comments
       </div>
       <div class="ui-g-2">
         share
@@ -46,6 +47,6 @@
       <div class="ui-g-2">
         crosspost
       </div>
-    </p-footer>
+    <!--</p-footer>-->
   </p-card>
 </div>

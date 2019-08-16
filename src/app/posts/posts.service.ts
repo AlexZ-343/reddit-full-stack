@@ -6,9 +6,11 @@ import {Posts} from './posts.interface';
 @Injectable()
 export class PostService {
 
-  public PostsListSource = new Subject<Posts>();
+  private PostsListSource = new Subject<Posts[]>();
+  private SelectedPostSource = new Subject<Posts>();
 
   postsList$ = this.PostsListSource.asObservable();
+  selectedPost$ = this.SelectedPostSource.asObservable();
 
   constructor(
     private http: HttpClient
@@ -16,15 +18,17 @@ export class PostService {
 
   getPostsList(sortType: string): void {
 
-    const endpoint = '/rest/posts/getPostList?sortType=' + sortType;
+    const endpoint = 'http://localhost:8080/post/top/page';
 
-    const requestParams = {
-      sortType: 'hot'
-    };
+    // const requestParams = {
+    //   sortType: 'hot'
+    // };
 
-    this.http.get(endpoint, {params: requestParams as any}).subscribe(response => {
+    // , {params: requestParams as any}
+
+    this.http.get(endpoint).subscribe((response: List<Posts>) => {
       if (response) {
-        this.PostsListSource.next(response['body']['postList']);
+        this.PostsListSource.next(response);
       }
     });
 

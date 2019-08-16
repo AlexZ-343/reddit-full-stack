@@ -1,0 +1,42 @@
+
+
+<div class="ui-g-12">
+  <div class="ui-g-4">
+    <p-tabMenu [model]="postType" [activeItem]="postType[0]"></p-tabMenu>
+  </div>
+</div>
+
+<!--(ngSubmit)="onSubmit()"-->
+
+<form [formGroup]="newPostForm">
+
+  <div class="ui-g-12">
+    <p-card header="*title">
+      <textarea rows="1" cols="150" pInputTextarea formControlName="postTitle"></textarea>
+    </p-card>
+  </div>
+
+  <div class="ui-g-12">
+    <p-card header="text (optional)">
+      <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="true" formControlName="postBody"></textarea>
+    </p-card>
+  </div>
+
+  <div class="ui-g-12">
+    <p-card header="*choose which subreddit to post">
+      <input size="30" pInputText [value]="selectedSubreddit" formControlName="subReddit">
+      <br>
+      <span>Your subscribed subreddits:</span>
+      <!--[ngModel]="selectedSubreddit"-->
+      <!--onClick="setSubreddit()"-->
+      <div *ngFor="let item of keys()">
+        {{ item }}
+      </div>
+    </p-card>
+  </div>
+
+  <div class="ui-g-12">
+      <p-button label="Submit" class="ui-button-secondary" (onClick)="submitPost()"></p-button>
+  </div>
+
+</form>
