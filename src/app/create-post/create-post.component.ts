@@ -1,26 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
-import {Subreddit} from '../posts/posts.interface';
+import {Posts, Subreddit} from '../posts/posts.interface';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CreatePostService} from './create-post.service';
 import {Subscription} from 'rxjs';
 import {ReactiveFormsService} from '../shared/reactive-forms.service';
-import {HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {SharedPostService} from '../shared/shared-post.service';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   postType: Menuitem[];
   selectedType: MenuItem;
   postSuccess: boolean;
-  postId: number;
   newPostForm: FormGroup;
+  post: Posts = {};
   // selectedSubreddit: string;
   keys(): Array<string> {
     const keys = Object.keys(Subreddit);
@@ -31,6 +31,7 @@ export class CreatePostComponent implements OnInit {
     private createPostService: CreatePostService,
     private formBuilder: FormBuilder,
     private reactiveForms: ReactiveFormsService,
+    // private sharedPostService: SharedPostService,
     private router: Router
   ) { }
 
@@ -38,7 +39,7 @@ export class CreatePostComponent implements OnInit {
     this.setNewPostFormControl();
     this.subscriptions.push(
       this.createPostService.postId$.subscribe((postId: number) => {
-        this.postId = postId;
+        this.post.postId = postId;
       }),
       this.createPostService.postSuccess$.subscribe((postSuccess: boolean) => {
         this.postSuccess = postSuccess;
@@ -66,23 +67,16 @@ export class CreatePostComponent implements OnInit {
   submitPost(): void {
 
     if (this.formIsValid('newPostForm')) {
-      // const params: [string, any];
-      //
-      // for (const key of Object.keys(this.newPostForm.controls)) {
-      //   params.push(key, this.newPostForm.get(key).value);
-      // }
-      //
-      // params.push('postType', this.selectedType);
       const formJSON = JSON.parse(JSON.stringify(this.newPostForm.getRawValue()));
       formJSON.postType = this.selectedType.label.toUpperCase();
       formJSON = JSON.stringify(formJSON);
 
       this.createPostService.submitPost(formJSON);
       if (this.postSuccess) {
-        this.SharedService.postFormdata(model).subscribe(
-          (data) => {
-            this.router.navigate(['/PublicPage']);
-          },
+        // Construct post object
+        this.buildPostObject();
+        this.createPostService.post = this.post;
+        this.router.navigate(['/post-comments']);
       }
     } else {
       this.reactiveForms.validateAllFormFields(this.newPostForm);
@@ -90,8 +84,20 @@ export class CreatePostComponent implements OnInit {
 
   }
 
-  // setSubreddit(): void {
-  //   this.selectedSubreddit = selectedSubreddit;
-  // }
+  buildPostObject(): void {
+    this.post.postTitle = this.newPostForm.get('postTitle').value;
+    // this.post.datePosted = Date = new Date();
+    this.post.postType = this.selectedType.label;
+    this.post.postBody = this.newPostForm.get('postBody').value;
+    this.post.subReddit = this.newPostForm.get('subReddit').value;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub: Subscription) => {
+      if (sub && !sub.closed) {
+        sub.unsubscribe();
+      }
+    });
+  }
 
 }

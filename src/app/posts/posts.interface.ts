@@ -1,11 +1,11 @@
 export interface Posts {
-  postID: number;
-  username: string;
-  subReddit: Subreddit;
-  postTitle: string;
-  datePosted: number;
-  postType: PostType;
-  postBody: string;
+  postID?: number;
+  username?: string;
+  subReddit?: Subreddit;
+  postTitle?: string;
+  datePosted?: Date;
+  postType?: PostType;
+  postBody?: string;
 }
 
 export interface Comments {

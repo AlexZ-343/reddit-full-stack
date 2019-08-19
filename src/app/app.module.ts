@@ -30,6 +30,8 @@ import {LoginComponent} from './login/login.component';
 import {LoginService} from './login/login.service';
 import { CreatePostComponent } from './create-post/create-post.component';
 import {CreatePostService} from './create-post/create-post.service';
+import {SharedPostService} from './shared/shared-post.service';
+import {PostCommentsService} from './post-comments/post-comments.service';
 
 const routes: Routes = [
   { path: 'login-modal', component: LoginModalComponent, canActivate: [AuthGuardService]},
@@ -51,7 +53,7 @@ const routes: Routes = [
     LoginModalComponent,
     PostsComponent,
     PostCommentsComponent,
-    CreatePostComponent
+    CreatePostComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,8 @@ const routes: Routes = [
     AuthGuardService,
     AuthService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService
+    JwtHelperService,
+    PostCommentsService
   ],
   bootstrap: [AppComponent]
 })

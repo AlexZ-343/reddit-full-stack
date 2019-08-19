@@ -112,6 +112,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       this.loginModalService.submitLogin(params);
       if (this.loginSuccess) {
         // this.authService.login()
+        this.closeModal();
       } else {
       this.loginModalService.increaseLoginCounter();
       if (this.loginAttempts > 3) {

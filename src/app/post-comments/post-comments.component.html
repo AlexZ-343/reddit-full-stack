@@ -1,7 +1,32 @@
-<p-card header="test" subheader="Subheader" [style]="{width: '90vw', height: '10vw'}" styleClass="ui-card-shadow">
-  <p-footer>
+
+
+<p-card [style]="{width: '70vw', height: '15vw'}">
+  <div class="ui-g-10">
+    <div class="ui-g-1">
+
+    </div>
+    <div class="ui-g-9">
+      <h3>
+        {{post.postTitle}}
+      </h3>
+      <br>
+      submitted x days ago by someUser
+    </div>
+  </div>
+  <div class="ui-g-10">
+    <div class="ui-g-1">
+
+    </div>
+    <div class="ui-g-9">
+      {{post.postBody}}
+    </div>
+  </div>
+  <div class="ui-g-10">
+    <div class="ui-g-1">
+
+    </div>
     <div class="ui-g-2">
-      ahh comments
+      2 comments
     </div>
     <div class="ui-g-2">
       share
@@ -10,13 +35,14 @@
       save
     </div>
     <div class="ui-g-2">
-      hide
-    </div>
-    <div class="ui-g-2">
       report
     </div>
     <div class="ui-g-2">
       crosspost
     </div>
-  </p-footer>
+  </div>
+  <div>
+      <textarea [rows]="5" [cols]="135" pInputTextarea autoResize="true" [formControl]="commentFormControl"></textarea>
+  </div>
+  <p-button label="Submit" class="ui-button-secondary"></p-button>
 </p-card>

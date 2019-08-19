@@ -27,8 +27,11 @@
 </p-card>
 
 <div *ngFor="let post of postList" class="post-spacing">
-  <p-card header="{{post.postTitle}}" [style]="{width: '90vw', height: '6vw'}" styleClass="ui-card-shadow">
+  <p-card header="{{post.postTitle}}" [style]="{width: '90vw', height: '8vw'}" styleClass="ui-card-shadow">
     <!--<p-footer>-->
+    <div>
+      {{post.postBody}}
+    </div>
       <div class="ui-g-2">
         300 comments
       </div>

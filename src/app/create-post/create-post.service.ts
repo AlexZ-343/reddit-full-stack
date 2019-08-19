@@ -1,19 +1,28 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Subject} from 'rxjs';
-import {PostStatus} from '../posts/posts.interface';
+import {Subject, Subscription} from 'rxjs';
+import {Posts, PostStatus} from '../posts/posts.interface';
 
 @Injectable()
-export class CreatePostService {
+export class CreatePostService implements OnInit, OnDestroy {
 
   private PostSuccessSource = new Subject<boolean>();
   public postSuccess$ = this.PostSuccessSource.asObservable();
   private PostIdSource = new Subject<number>();
   public postId$ = this.PostIdSource.asObservable();
+  public post: Posts = {};
 
   constructor(
     private http: HttpClient
   ) { }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.createPostService.postSuccess$.subscribe((postSuccess: boolean) => {
+        this.postSuccess = postSuccess;
+      })
+    );
+  }
 
   submitPost(newPostFormData: {}): void {
 
@@ -38,6 +47,12 @@ export class CreatePostService {
 
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub: Subscription) => {
+      if (sub && !sub.closed) {
+        sub.unsubscribe();
+      }
+    });
+  }
 
 }
