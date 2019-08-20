@@ -40,6 +40,15 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       }),
       this.loginModalService.loginSuccess$.subscribe((loginStatus: boolean) => {
         this.loginSuccess = loginStatus;
+        if (this.loginSuccess) {
+          // this.authService.login()
+          this.closeModal();
+        } else {
+          this.loginModalService.increaseLoginCounter();
+          if (this.loginAttempts > 3) {
+            this.loginDisabled = true;
+          }
+        }
       }),
       this.loginModalService.loginAttempt$.subscribe((loginAttempts: number) => {
         this.loginAttempts = loginAttempts;
@@ -110,15 +119,6 @@ export class LoginModalComponent implements OnInit, OnDestroy {
         params = params.append(key, this.loginForm.get(key).value);
       }
       this.loginModalService.submitLogin(params);
-      if (this.loginSuccess) {
-        // this.authService.login()
-        this.closeModal();
-      } else {
-      this.loginModalService.increaseLoginCounter();
-      if (this.loginAttempts > 3) {
-          this.loginDisabled = true;
-        }
-      }
     } else {
       this.reactiveForms.validateAllFormFields(this.loginForm);
     }

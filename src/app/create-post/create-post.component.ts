@@ -43,6 +43,12 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       }),
       this.createPostService.postSuccess$.subscribe((postSuccess: boolean) => {
         this.postSuccess = postSuccess;
+        if (this.postSuccess) {
+          // Construct post object
+          this.buildPostObject();
+          this.createPostService.post = this.post;
+          this.router.navigate(['/post-comments']);
+        }
       })
     );
     this.postType = [
@@ -72,12 +78,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       formJSON = JSON.stringify(formJSON);
 
       this.createPostService.submitPost(formJSON);
-      if (this.postSuccess) {
-        // Construct post object
-        this.buildPostObject();
-        this.createPostService.post = this.post;
-        this.router.navigate(['/post-comments']);
-      }
     } else {
       this.reactiveForms.validateAllFormFields(this.newPostForm);
     }

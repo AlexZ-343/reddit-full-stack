@@ -5,6 +5,8 @@ import {SignupService} from './register-modal.service';
 import {ReactiveFormsService} from '../shared/reactive-forms.service';
 import {RegisterModalValidator} from './register-modal.validator';
 import {LoginService} from '../login/login.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {RegistrationStatus} from './register-modal.interface';
 
 @Component({
   selector: 'app-sign-up-modal',
@@ -22,6 +24,7 @@ export class RegisterModalComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private signupService: SignupService,
     private reactiveForms: ReactiveFormsService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -31,6 +34,12 @@ export class RegisterModalComponent implements OnInit, OnDestroy {
       }),
       this.signupService.registerStatus$.subscribe((registerStatus: boolean) => {
         this.registerStatus = registerStatus;
+        if (this.registerStatus) {
+          // login logic
+          this.closeModal();
+        } else {
+
+        }
       })
     );
     this.setSignupFormControl();
@@ -53,11 +62,6 @@ export class RegisterModalComponent implements OnInit, OnDestroy {
     if (this.formIsValid('signupForm')) {
       const formJSON = JSON.stringify(this.signupForm.getRawValue());
       this.signupService.submitRegistration(formJSON);
-      if (this.registerStatus) {
-        this.closeModal();
-      } else {
-        console.log('Something went wrong');
-      }
     } else {
       this.reactiveForms.validateAllFormFields(this.signupForm);
     }

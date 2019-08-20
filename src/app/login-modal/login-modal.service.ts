@@ -52,13 +52,4 @@ export class LoginModalService implements OnInit, OnDestroy {
     });
   }
 
-  //
-  //   this.http.post(endpoint, signupFormData, requestOptions)
-  //     .subscribe((response: RegistrationStatus) => {
-  //     this.RegisterStatusSource.next(response.status);
-  //   }
-  //   // , err => { console.log(err); throw '';}
-  //   );
-  //
-  // }
 }
