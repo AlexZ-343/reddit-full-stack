@@ -54,6 +54,7 @@ const routes: Routes = [
     PostsComponent,
     PostCommentsComponent,
     CreatePostComponent,
+    RightSidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +66,7 @@ const routes: Routes = [
     ButtonModule,
     RadioButtonModule,
     TabMenuModule,
+    MenuModule,
     TableModule,
     RouterModule.forRoot(routes),
     DialogModule,
