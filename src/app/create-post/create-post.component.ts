@@ -1,12 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
-import {Posts, Subreddit} from '../posts/posts.interface';
+import {Posts, PostType, Subreddit} from '../posts/posts.interface';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CreatePostService} from './create-post.service';
 import {Subscription} from 'rxjs';
 import {ReactiveFormsService} from '../shared/reactive-forms.service';
 import {Router} from '@angular/router';
-import {SharedPostService} from '../shared/shared-post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -39,7 +38,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.setNewPostFormControl();
     this.subscriptions.push(
       this.createPostService.postId$.subscribe((postId: number) => {
-        this.post.postId = postId;
+        this.post.postID = postId;
       }),
       this.createPostService.postSuccess$.subscribe((postSuccess: boolean) => {
         this.postSuccess = postSuccess;
@@ -73,7 +72,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   submitPost(): void {
 
     if (this.formIsValid('newPostForm')) {
-      const formJSON = JSON.parse(JSON.stringify(this.newPostForm.getRawValue()));
+      let formJSON = JSON.parse(JSON.stringify(this.newPostForm.getRawValue()));
       formJSON.postType = this.selectedType.label.toUpperCase();
       formJSON = JSON.stringify(formJSON);
 
@@ -87,7 +86,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   buildPostObject(): void {
     this.post.postTitle = this.newPostForm.get('postTitle').value;
     // this.post.datePosted = Date = new Date();
-    this.post.postType = this.selectedType.label;
+    this.post.postType = this.selectedType.label as PostType;
     this.post.postBody = this.newPostForm.get('postBody').value;
     this.post.subReddit = this.newPostForm.get('subReddit').value;
   }

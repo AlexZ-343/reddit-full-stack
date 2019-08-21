@@ -16,7 +16,8 @@ export class PostService {
     private http: HttpClient
   ) { }
 
-  getPostsList(sortType: string): void {
+  //sortType: string
+  getPostsList(): void {
 
     const endpoint = 'http://localhost:8080/post/top/page';
 
@@ -26,7 +27,7 @@ export class PostService {
 
     // , {params: requestParams as any}
 
-    this.http.get(endpoint).subscribe((response: List<Posts>) => {
+    this.http.get(endpoint).subscribe((response: Posts[]) => {
       if (response) {
         this.PostsListSource.next(response);
       }
