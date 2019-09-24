@@ -85,4 +85,11 @@
     <p-button label="Register" (onClick)="validateRegister()"></p-button>
     <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
 
+  <br>
+  <div class="ui-g-12">
+    <label>Already have an account?</label>
+    <br>
+    <div class="link" (click)="this.toggleToLogin()">Log In</div>
+  </div>
+
 </p-dialog>

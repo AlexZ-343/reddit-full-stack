@@ -8,8 +8,8 @@ import {LoginStatus} from './login-modal.interface';
 export class LoginModalService implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  private LoginSuccessSource = new Subject<boolean>();
-  public loginSuccess$ = this.LoginSuccessSource.asObservable();
+  private LoginTokenSource = new Subject<string>();
+  public loginToken$ = this.LoginTokenSource.asObservable();
   private LoginAttemptSource = new Subject<number>();
   public loginAttempt$ = this.LoginAttemptSource.asObservable();
 
@@ -27,12 +27,21 @@ export class LoginModalService implements OnInit, OnDestroy {
     );
   }
 
-  submitLogin(requestParams: HttpParams): void {
-    const endpoint = 'http://localhost:8080/login/checkLogin';
+  submitLogin(loginFormData: string): void {
 
-    this.http.get(endpoint, { params: requestParams })
-      .subscribe((response: LoginStatus) => {
-      this.LoginSuccessSource.next(response.loginSuccess);
+    const endpoint = 'http://localhost:8080/login';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        Accept: 'application/json'
+      })
+    };
+
+    this.http.post(endpoint, {loginFormData}, {options: {headers: httpOptions}, observe: 'response'})
+      .subscribe((response) => {
+        response.headers.get('Authorization');
+      // this.LoginSuccessSource.next(response.headers.get(''));
     });
   }
 

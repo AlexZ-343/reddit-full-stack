@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/components/button/button';
 import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { CardModule, DialogModule, InputTextModule, TabMenuModule} from 'primeng/primeng';
+import {CardModule, DialogModule, InputTextModule, MenuModule, TabMenuModule} from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
 import { RouterModule, Routes} from '@angular/router';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
@@ -30,19 +30,21 @@ import {LoginComponent} from './login/login.component';
 import {LoginService} from './login/login.service';
 import { CreatePostComponent } from './create-post/create-post.component';
 import {CreatePostService} from './create-post/create-post.service';
-import {SharedPostService} from './shared/shared-post.service';
 import {PostCommentsService} from './post-comments/post-comments.service';
+import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
+import {routes} from './app.routing';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
-const routes: Routes = [
-  { path: 'login-modal', component: LoginModalComponent, canActivate: [AuthGuardService]},
-  { path: '', component: PostsComponent },
-  { path: 'login', component: LoginModalComponent},
-  { path: 'register', component: RegisterModalComponent},
-  { path: 'post-comments', component: PostCommentsComponent},
-  { path: 'create-post', component: CreatePostComponent},
-  // { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: '**', redirectTo: 'home'}
-];
+// const routes: Routes = [
+//   { path: 'login-modal', component: LoginModalComponent },
+//   { path: '', component: PostsComponent },
+//   { path: 'login', component: LoginModalComponent},
+//   { path: 'register', component: RegisterModalComponent},
+//   { path: 'post-comments', component: PostCommentsComponent},
+//   { path: 'create-post', component: CreatePostComponent},
+//   // { path: '', redirectTo: 'home', pathMatch: 'full'},
+//   { path: '**', redirectTo: 'login'}
+// ];
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ const routes: Routes = [
     PostCommentsComponent,
     CreatePostComponent,
     RightSidebarComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,15 @@ const routes: Routes = [
     HttpClientModule,
     OAuthModule,
     OAuthModule.forRoot(),
-    JwtModule
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function  tokenGetter() {
+          return localStorage.getItem('access_token');
+        },
+        whitelistedDomains: ['localhost:4200'],
+        blacklistedRoutes: ['http://localhost:4200/auth/login']
+      }
+    })
   ],
   providers: [
     LoginService,

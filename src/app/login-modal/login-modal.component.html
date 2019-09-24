@@ -2,7 +2,7 @@
   [(visible)]="this.showLoginModal"
   modal="modal"
   width="600"
-  height="250"
+  height="300"
   [showHeader]="true"
   [responsive]="true"
   [closeOnEscape]="false"
@@ -51,7 +51,7 @@
     <div class="ui-g-12">
       <p-button label="Log In" (onClick)="validateLogin()" [disabled]="loginDisabled"></p-button>
       <p-button class="ui-button-secondary register-margin" label="Cancel" (onClick)="closeModal()"></p-button>
-      <div *ngIf="this.loginSuccess === false && !this.loginDisabled">
+      <div *ngIf="this.loginToken === false && !this.loginDisabled">
         <p>Incorrect username or password.</p>
       </div>
       <div *ngIf="this.loginDisabled">
@@ -61,5 +61,9 @@
    </div>
   </div>
   </form>
+  <div class="ui-g-12">
+    <label>New to Reddit?</label>
+    <div class="link" (click)="this.toggleToRegister()">Register</div>
+  </div>
 
 </p-dialog>

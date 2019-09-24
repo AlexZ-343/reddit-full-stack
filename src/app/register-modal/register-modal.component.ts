@@ -72,6 +72,11 @@ export class RegisterModalComponent implements OnInit, OnDestroy {
     this.loginService.showSignUpModal(false);
   }
 
+  toggleToLogin(): void {
+    this.loginService.showSignUpModal(false);
+    this.loginService.showLoginModal(true);
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach((sub: Subscription) => {
       if (sub && !sub.closed) {

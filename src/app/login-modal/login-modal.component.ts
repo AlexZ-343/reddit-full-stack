@@ -19,7 +19,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   showLoginModal = false;
   private subscriptions: Subscription[] = [];
   loginForm: FormGroup;
-  loginSuccess: boolean;
+  loginToken: string;
   loginAttempts: number;
   loginDisabled = false;
 
@@ -38,9 +38,9 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       this.loginService.loggingIn$.subscribe((showLogin: boolean) => {
         this.showLoginModal = showLogin;
       }),
-      this.loginModalService.loginSuccess$.subscribe((loginStatus: boolean) => {
-        this.loginSuccess = loginStatus;
-        if (this.loginSuccess) {
+      this.loginModalService.loginToken$.subscribe((loginToken: string) => {
+        this.loginToken = loginToken;
+        if (this.loginToken) {
           // this.authService.login()
           this.closeModal();
         } else {
@@ -113,12 +113,8 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   validateLogin(): void {
     if (this.formIsValid('loginForm')) {
-      let params = new HttpParams();
-
-      for (const key of Object.keys(this.loginForm.controls)) {
-        params = params.append(key, this.loginForm.get(key).value);
-      }
-      this.loginModalService.submitLogin(params);
+      const formJSON = JSON.stringify(this.loginForm.getRawValue());
+      this.loginModalService.submitLogin(formJSON);
     } else {
       this.reactiveForms.validateAllFormFields(this.loginForm);
     }
@@ -126,6 +122,11 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   closeModal(): void {
     this.loginService.showLoginModal(false);
+  }
+
+  toggleToRegister(): void {
+    this.loginService.showLoginModal(false);
+    this.loginService.showSignUpModal(true);
   }
 
   ngOnDestroy() {

@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { AuthService } from './auth.service';
+import {JwtAuthenticationService} from '../jwt-authentication.service';
+import {LoginService} from '../login/login.service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
   constructor(private oauthService: OAuthService,
-              public auth: AuthService,
-              private router: Router) {}
+              private jwtAuthService: JwtAuthenticationService,
+              private router: Router,
+              private loginService: LoginService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.oauthService.hasValidIdToken() || this.auth.isAuthenticated) {
+    const currentUser = this.jwtAuthService.currentUserValue;
+    if (this.oauthService.hasValidIdToken() || currentUser) {
+      // logged in so return true
       return true;
     }
 
-    this.router.navigate(['/login']);
+    // this.router.navigate([''], {queryParams: {returnUrl: state.url}});
+    this.loginService.showSignUpModal(true);
     return false;
   }
 

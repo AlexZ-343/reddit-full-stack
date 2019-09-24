@@ -18,6 +18,14 @@ export class LoginService {
     this.loggingInSource.next(isOpen);
   }
 
+  toggleToRegister(): void {
+    this.showSignUpModal(true);
+    this.showLoginModal(false);
+  }
 
+  toggleToLogin(): void {
+    this.showLoginModal(true);
+    this.showSignUpModal(false);
+  }
 
 }

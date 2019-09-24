@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
 export class CreatePostComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  postType: Menuitem[];
+  postType: MenuItem[];
   selectedType: MenuItem;
   postSuccess: boolean;
   newPostForm: FormGroup;
